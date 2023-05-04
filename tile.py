@@ -9,11 +9,14 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+
+
 def csv_to_tile_map(csv_map):
     tile_map = []
 
 
-class Tile():
+class Tile(object):
+
     def __init__(self, collision, color, x, y):
         self.collision = collision
         self.color = color
@@ -22,7 +25,10 @@ class Tile():
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
 
+
 class TileMap():
+    cmap = []
+
     def __init__(self, data):
         self.width = len(data[0])
         self.height = len(data)
@@ -41,6 +47,8 @@ class TileMap():
                 else:
                     color = pygame.Color('black')
                 tile = Tile(collision, color, x * TILE_SIZE, y * TILE_SIZE)
+                if tile.collision == 1:
+                    TileMap.cmap.append(tile.rect)
                 row.append(tile)
             self.tiles.append(row)
 
