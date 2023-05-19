@@ -5,7 +5,7 @@ from character import Character
 from utility import csv_reader
 from tile import TileMap
 from room import Room
-
+from objects import *
 # Define some constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -17,9 +17,13 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Create the rooms
+file_to_copy="./assets/map/map2.csv"
+genre_objects(file_to_copy) #Podajemy plik do skopiowania, zwraca zmieniony plik map1.csv (z przedmiotami)
+
+
 tile_map = TileMap(csv_reader("./assets/map/map1.csv"))
 rooms = [Room(tile_map), Room(tile_map), Room(tile_map)]
-ch = Character(100, 100, 0.1)
+ch = Character(100, 100)
 # Set the current room
 current_room_index = 0
 current_room = rooms[current_room_index]
