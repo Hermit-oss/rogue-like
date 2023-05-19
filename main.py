@@ -19,7 +19,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # Create the rooms
 tile_map = TileMap(csv_reader("./assets/map/map1.csv"))
 rooms = [Room(tile_map), Room(tile_map), Room(tile_map)]
-ch = Character(100, 100)
+ch = Character(100, 100, 0.1)
 # Set the current room
 current_room_index = 0
 current_room = rooms[current_room_index]
