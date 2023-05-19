@@ -8,6 +8,9 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+YELLOW=(255,255,0)
+PURPLE=(38,43,226)
+MAGENTA=(255,0,255)
 
 
 
@@ -37,13 +40,19 @@ class TileMap():
             row = []
             for x in range(self.width):
                 val = int(data[y][x])
-                collision = 1 if val in [-1, -2] else 0
-                if val == 1:
+                collision = 1 if val in [-1, -2,10,20,30] else 0
+                if (val == 1 or val==2):
                     color = pygame.Color('white')
                 elif val == 0:
                     color = pygame.Color('red')
                 elif val == -1:
                     color = pygame.Color('blue')
+                elif val == 10:
+                    color = pygame.Color('yellow')
+                elif val == 20:
+                    color = pygame.Color('purple')
+                elif val == 30:
+                    color = pygame.Color('magenta')
                 else:
                     color = pygame.Color('black')
                 tile = Tile(collision, color, x * TILE_SIZE, y * TILE_SIZE)
