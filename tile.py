@@ -30,7 +30,8 @@ class Tile(object):
 
 
 class TileMap():
-    cmap = []
+    cmap = []  # Map of collisions
+    dmap = []  # Map of tiles that cause damage
 
     def __init__(self, data):
         self.width = len(data[0])
@@ -40,8 +41,8 @@ class TileMap():
             row = []
             for x in range(self.width):
                 val = int(data[y][x])
-                collision = 1 if val in [-1, -2,10,20,30] else 0
-                if (val == 1 or val==2):
+                collision = 1 if val in [-1, -2, 20, 30] else 0
+                if val == 1 or val == 2:
                     color = pygame.Color('white')
                 elif val == 0:
                     color = pygame.Color('red')
@@ -56,8 +57,10 @@ class TileMap():
                 else:
                     color = pygame.Color('black')
                 tile = Tile(collision, color, x * TILE_SIZE, y * TILE_SIZE)
-                if tile.collision == 1:
-                    TileMap.cmap.append(tile.rect)
+                if tile.collision == 1:  # Check collision
+                    TileMap.cmap.append(tile.rect)  # Add tile to map of collisions
+                if val == 10:  # Check if tile is yellow
+                    TileMap.dmap.append(tile.rect)  # Add tile to map of tiles that cause damage
                 row.append(tile)
             self.tiles.append(row)
 

@@ -23,7 +23,7 @@ genre_objects(file_to_copy) #Podajemy plik do skopiowania, zwraca zmieniony plik
 
 tile_map = TileMap(csv_reader("./assets/map/map1.csv"))
 rooms = [Room(tile_map), Room(tile_map), Room(tile_map)]
-ch = Character(100, 100)
+ch = Character(100, 100, 0.05, 3)
 # Set the current room
 current_room_index = 0
 current_room = rooms[current_room_index]
@@ -55,10 +55,13 @@ while running:
     if key[pygame.K_q]:
         run = False
     Character.update(ch)
+    if ch.status == 0:
+        pass
+        # TO DO: You are dead screen
 
     # Draw the current room
     current_room.draw(screen)
-    pygame.draw.rect(screen, (31, 14, 65), ch.rect)
+    pygame.draw.rect(screen, ch.color, ch.rect)
     # Update the screen
     pygame.display.flip()
 
