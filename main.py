@@ -2,7 +2,7 @@ import pygame
 
 import tile
 from bullet import *
-from box_bomb import Box
+from box_bomb import *
 from character import Character
 from utility import csv_reader
 from tile import TileMap
@@ -22,17 +22,18 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 file_to_copy="./assets/map/map2.csv"
 genre_objects(file_to_copy) #Podajemy plik do skopiowania, zwraca zmieniony plik map1.csv (z przedmiotami)
 
-bullets = []
-
 tile_map = TileMap(csv_reader("./assets/map/map1.csv"))
 rooms = [Room(tile_map), Room(tile_map), Room(tile_map)]
 ch = Character(100, 100, 0.3, 3)
-box= Box(20)
+
+
+bullets = []
+boxes,bombs=genre_boxes()
+facing =0
+
 # Set the current room
 current_room_index = 0
 current_room = rooms[current_room_index]
-
-facing =0
 
 def redrawGameWindow():
     current_room.draw(screen)
@@ -43,6 +44,7 @@ def redrawGameWindow():
     pygame.display.flip()
     
     pygame.display.update()
+
 # Game loop
 running = True
 while running:
@@ -68,10 +70,16 @@ while running:
     if key[pygame.K_DOWN] or key[pygame.K_s]:
         ch.move_down()
             
-
+    if key[pygame.K_c]:
+        if len(bullets) < 5:
+            facing=ch.orientation
+            bullets.append(Bullet(ch.x , ch.y , 4, (0,0,0), facing))
+    Bullet.shoot(screen,bullets,SCREEN_WIDTH,boxes, bombs)
+    
     if key[pygame.K_q]:
         run = False
     Character.update(ch)
+
 
     if ch.status == 0:
         pass
@@ -80,12 +88,7 @@ while running:
     # Draw the current room
 
     
-    if key[pygame.K_c]:
-        if len(bullets) < 5:
-            facing=ch.orientation
-            bullets.append(Bullet(ch.x , ch.y , 4, (0,0,0), facing))
-    Bullet.shoot(screen,bullets,SCREEN_WIDTH,box)
-    
+
     redrawGameWindow()
 
 # Quit pygame

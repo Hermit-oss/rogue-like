@@ -33,6 +33,7 @@ class TileMap():
     cmap = []  # Map of collisions
     dmap = []  # Map of tiles that cause damage
     box = []
+    bomb = []
     def __init__(self, data):
         self.width = len(data[0])
         self.height = len(data)
@@ -54,7 +55,7 @@ class TileMap():
                     TileMap.box.append(tile.rect)
                     color = pygame.Color('purple')
                 elif val == 30:
-                    TileMap.box.append(tile.rect)
+                    TileMap.bomb.append(tile.rect)
                     color = pygame.Color('magenta')
                 else:
                     color = pygame.Color('black')
