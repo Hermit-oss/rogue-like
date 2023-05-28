@@ -1,5 +1,6 @@
 import pygame
 import tile
+import box_bomb
 
 CHARACTER_SIZE = 16
 I_FRAMES = 1500
@@ -18,6 +19,12 @@ class Character(object):
         self.x = x  # Position of character in x-axis
         self.y = y  # Position of character in y-axis
         self.rect = pygame.Rect(x, y, CHARACTER_SIZE, CHARACTER_SIZE)
+
+        self.money=0 #how much money does character has
+        self.bomb=0 # how many bombs does character has
+        self.causing_damage=10 #how much damage can character cause
+        self.orientation=1 # 1=left or 0=right orientation to shot bullets
+
 
     def update(self):
         self.rect.update(self.x, self.y, CHARACTER_SIZE, CHARACTER_SIZE)  # Update collision rect
@@ -41,6 +48,7 @@ class Character(object):
         if future_rect.collidelistall(tile.TileMap.cmap):  # Check if next movement will cause collision
             pass  # Collision -> No movement
         else:
+            self.orientation=1
             self.x -= self.speed  # No collision -> Movement
 
     def move_right(self):
@@ -48,6 +56,7 @@ class Character(object):
         if future_rect.collidelistall(tile.TileMap.cmap):
             pass
         else:
+            self.orientation=0
             self.x += self.speed
 
     def move_down(self):
