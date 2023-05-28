@@ -5,7 +5,7 @@ from bullet import *
 from box_bomb import *
 from character import Character
 from utility import csv_reader
-from tile import TileMap
+from tile import TileMap, enemy_class
 from room import Room
 from objects import *
 # Define some constants
@@ -37,6 +37,8 @@ current_room = rooms[current_room_index]
 
 def redrawGameWindow():
     current_room.draw(screen)
+    #current_room.tile_map.enemies.move(pygame.mouse.get_pos())
+    current_room.tile_map.enemies.move((ch.x, ch.y))
     pygame.draw.rect(screen, ch.color, ch.rect)
     for bullet in bullets:
         bullet.draw(screen)

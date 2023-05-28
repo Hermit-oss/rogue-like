@@ -1,6 +1,7 @@
 import pygame
 from utility import csv_reader
 from box_bomb import Box
+from enemies import enemy_class
 TILE_SIZE = 32
 
 BLACK = (0, 0, 0)
@@ -34,15 +35,27 @@ class TileMap():
     dmap = []  # Map of tiles that cause damage
     box = []
     bomb = []
+    enemies = enemy_class()
     def __init__(self, data):
         self.width = len(data[0])
         self.height = len(data)
         self.tiles = []
         for y in range(self.height):
             row = []
-            for x in range(self.width):
+            for x in range(self.width):                
                 val = int(data[y][x])
                 collision = 1 if val in [-1, -2, 20, 30] else 0
+
+ #               if collision==0:
+ #                   for checked_enemy in range(len(self.enemies.enemy_list)):
+ #                       if self.enemies.enemy_X[checked_enemy] > y*25 and self.enemies.enemy_X[checked_enemy] < (y+1)*25:
+ #                           if self.enemies.enemy_Y[checked_enemy] > x*25 and self.enemies.enemy_Y[checked_enemy] < (x+1)*25:
+
+                for checked_enemy in range(len(self.enemies.enemy_list)):        
+                    if self.enemies.enemy_X[checked_enemy] > y*25 and self.enemies.enemy_X[checked_enemy] < (y+1)*25 and self.enemies.enemy_Y[checked_enemy] > x*25 and self.enemies.enemy_Y[checked_enemy] < (x+1)*25:
+                        self.enemies.if_draw[checked_enemy]=True
+
+
                 if val == 1 or val == 2:
                     color = pygame.Color('white')
                 elif val == 0:
@@ -69,7 +82,9 @@ class TileMap():
 
 
     def draw(self, screen):
+        print("Sdsdsdsdss")
         for row in self.tile_map:
             for tile in row:
                 tile.draw(screen)
+        self.enemies.display_enemy(screen)
 
