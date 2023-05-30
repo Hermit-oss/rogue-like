@@ -23,8 +23,8 @@ class enemy_class():
         amount = random.randint(3, 5)
         for i in range(amount):
             enemy_type = random.randint(0,2)  #losuje rodzaj oponenta
-            enemy_X=random.randint(0, 300)
-            enemy_Y=random.randint(0,300)
+            enemy_X=random.randint(60, 300)
+            enemy_Y=random.randint(60,300)
 
             self.enemy_list.append(enemy_type)
             self.enemy_X.append(enemy_X)
