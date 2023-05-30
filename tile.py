@@ -47,7 +47,7 @@ class TileMap():
                 val = int(data[y][x])
                 collision = 1 if val in [-1, -2, 20, 30] else 0
                 
-                 if collision==0:
+                if collision==0:
                     for checked_enemy in range(len(self.enemies.enemy_list)):        
                         if self.enemies.enemy_X[checked_enemy] > y*25 and self.enemies.enemy_X[checked_enemy] < (y+1)*25 and self.enemies.enemy_Y[checked_enemy] > x*25 and self.enemies.enemy_Y[checked_enemy] < (x+1)*25:
                             self.enemies.if_draw[checked_enemy]=True
@@ -83,4 +83,3 @@ class TileMap():
         for row in self.tile_map:
             for tile in row:
                 tile.draw(screen)
-
