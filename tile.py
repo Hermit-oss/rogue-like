@@ -40,11 +40,18 @@ class TileMap():
         self.width = len(data[0])
         self.height = len(data)
         self.tiles = []
+        enemies = enemy_class()
         for y in range(self.height):
             row = []
             for x in range(self.width):
                 val = int(data[y][x])
                 collision = 1 if val in [-1, -2, 20, 30] else 0
+                
+                 if collision==0:
+                    for checked_enemy in range(len(self.enemies.enemy_list)):        
+                        if self.enemies.enemy_X[checked_enemy] > y*25 and self.enemies.enemy_X[checked_enemy] < (y+1)*25 and self.enemies.enemy_Y[checked_enemy] > x*25 and self.enemies.enemy_Y[checked_enemy] < (x+1)*25:
+                            self.enemies.if_draw[checked_enemy]=True
+                
                 if val == 1 or val == 2:
                     color = pygame.Color('white')
                 elif val == 0:
