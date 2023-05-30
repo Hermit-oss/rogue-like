@@ -9,7 +9,7 @@ COLOR_OF_CHARACTER_DEAD = (255, 0, 2)
 
 
 class Character(object):
-    def __init__(self, x, y, speed, health_point):
+    def __init__(self, x, y, speed, health_point,causing_damage):
         self.i_frames = I_FRAMES  # Invincibility frames, can't get hit in this time
         self.can_hit = 1  # 0 can't get hit, 1 can get hit
         self.color = COLOR_OF_CHARACTER_ALIVE
@@ -19,12 +19,8 @@ class Character(object):
         self.x = x  # Position of character in x-axis
         self.y = y  # Position of character in y-axis
         self.rect = pygame.Rect(x, y, CHARACTER_SIZE, CHARACTER_SIZE)
-
-        self.money=0 #how much money does character has
-        self.bomb=0 # how many bombs does character has
-        self.causing_damage=10 #how much damage can character cause
-        self.orientation=1 # 1=left or 0=right orientation to shot bullets
-
+        self.orientation=1 # 1=left or 0=right 2-down 3-up orientation to shot bullets
+        self.causing_damage=causing_damage
 
     def update(self):
         self.rect.update(self.x, self.y, CHARACTER_SIZE, CHARACTER_SIZE)  # Update collision rect
@@ -64,6 +60,7 @@ class Character(object):
         if future_rect.collidelistall(tile.TileMap.cmap):
             pass
         else:
+            self.orientation=2
             self.y += self.speed
 
     def move_up(self):
@@ -71,4 +68,5 @@ class Character(object):
         if future_rect.collidelistall(tile.TileMap.cmap):
             pass
         else:
+            self.orientation=3
             self.y -= self.speed

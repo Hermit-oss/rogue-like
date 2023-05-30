@@ -1,6 +1,6 @@
 import pygame
 from utility import csv_reader
-from box_bomb import Box
+
 TILE_SIZE = 32
 
 BLACK = (0, 0, 0)
@@ -11,6 +11,8 @@ BLUE = (0, 0, 255)
 YELLOW=(255,255,0)
 PURPLE=(38,43,226)
 MAGENTA=(255,0,255)
+
+
 
 
 
@@ -52,10 +54,8 @@ class TileMap():
                 elif val == 10:
                     color = pygame.Color('yellow')
                 elif val == 20:
-                    TileMap.box.append(tile.rect)
                     color = pygame.Color('purple')
                 elif val == 30:
-                    TileMap.bomb.append(tile.rect)
                     color = pygame.Color('magenta')
                 else:
                     color = pygame.Color('black')
@@ -64,6 +64,10 @@ class TileMap():
                     TileMap.cmap.append(tile.rect)  # Add tile to map of collisions
                 if val == 10:  # Check if tile is yellow
                     TileMap.dmap.append(tile.rect)  # Add tile to map of tiles that cause damage
+                if val ==20:
+                     TileMap.box.append(tile.rect)
+                if val==30:
+                     TileMap.bomb.append(tile.rect)
                 row.append(tile)
             self.tiles.append(row)
 

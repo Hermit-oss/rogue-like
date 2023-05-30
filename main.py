@@ -1,8 +1,6 @@
 import pygame
-
-import tile
+import box_bomb
 from bullet import *
-from box_bomb import *
 from character import Character
 from utility import csv_reader
 from tile import TileMap
@@ -11,7 +9,6 @@ from objects import *
 # Define some constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-
 # Initialize pygame
 pygame.init()
 
@@ -24,11 +21,12 @@ genre_objects(file_to_copy) #Podajemy plik do skopiowania, zwraca zmieniony plik
 
 tile_map = TileMap(csv_reader("./assets/map/map1.csv"))
 rooms = [Room(tile_map), Room(tile_map), Room(tile_map)]
-ch = Character(100, 100, 0.3, 3)
+ch = Character(100, 100, 0.3, 3,5) #x,y,speed,health,causing damage
 
 
 bullets = []
-boxes,bombs=genre_boxes()
+
+boxes,bombs=box_bomb.genre_boxes()
 facing =0
 
 # Set the current room
@@ -48,6 +46,8 @@ def redrawGameWindow():
 # Game loop
 running = True
 while running:
+
+
     # Fill the screen with black
     screen.fill((0, 0, 0))
 
@@ -71,11 +71,17 @@ while running:
         ch.move_down()
             
     if key[pygame.K_c]:
-        if len(bullets) < 5:
-            facing=ch.orientation
-            bullets.append(Bullet(ch.x , ch.y , 4, (0,0,0), facing))
-    Bullet.shoot(screen,bullets,SCREEN_WIDTH,boxes, bombs)
+        if len(bullets) < 3: #max 3 pociski
+            facing=ch.orientation # w ktora maja leciec 
+            bullets.append(Bullet(ch.x , ch.y , 4, (0,0,0), facing,ch.causing_damage)) 
+            
     
+    if key[pygame.K_m]:
+        print("kasa",box_bomb.money_amount)
+    Bullet.shoot(bullets,SCREEN_WIDTH,SCREEN_HEIGHT,boxes, bombs,ch.causing_damage)
+    
+
+
     if key[pygame.K_q]:
         run = False
     Character.update(ch)
