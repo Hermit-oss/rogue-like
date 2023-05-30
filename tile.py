@@ -1,5 +1,6 @@
 import pygame
 from utility import csv_reader
+from enemies import enemy_class
 
 TILE_SIZE = 32
 
