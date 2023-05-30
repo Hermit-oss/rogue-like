@@ -35,6 +35,7 @@ current_room = rooms[current_room_index]
 
 def redrawGameWindow():
     current_room.draw(screen)
+    current_room.tile_map.enemies.move((ch.x, ch.y))
     pygame.draw.rect(screen, ch.color, ch.rect)
     for bullet in bullets:
         bullet.draw(screen)
