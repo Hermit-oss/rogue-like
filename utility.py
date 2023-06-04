@@ -3,29 +3,69 @@ import os
 import csv
 
 # RESOURCES
-FONT_PATH = './assets/font/yoster.ttf'
+FONT_PATH = './assets/fonts/yoster.ttf'
+DEFAULT_FONT_SIZE = 10
+DEFAULT_ROOM_LAYOUT = [
+    [-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2],
+    [-2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-2],
+    [-2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2],
+    [-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]
+]
 
-# Reads the .csv file and stores it
 def csv_reader(filename):
+    """
+    Read a .csv file (comma delimiter) and return the matrix.
+
+    Parameters:
+        filename (str): The path to the .csv file.
+
+    Returns:
+        list: The map as a matrix.
+    """
     map = []
-    # Try to open the specified file and return the list
     try:
         with open(os.path.join(filename)) as map_data:
             map_data = csv.reader(map_data, delimiter=',')
             for row in map_data:
                 map.append(list(row))
         return map
-    # Otherwise print the error and return an empty list
     except Exception as e:
         print(e)
+        map_data = csv.reader(DEFAULT_ROOM_LAYOUT, delimiter=',')
+        for row in map_data:
+            map.append(list(row))
         return map
 
-# Returns the font at FONT_PATH in a desired size
 def get_font(size):
-    # Try to get the font and return it
+    """
+    Get a font object in the specified size.
+
+    Parameters:
+        size (int): The desired font size.
+
+    Returns:
+        pygame.font.Font: The font object.
+    """
     try:
         return pygame.font.Font(FONT_PATH, size)
-    # Otherwise print the error and return the default font
     except Exception as e:
         print(e)
-        return pygame.font.Font(pygame.font.get_default_font(), size)
+        try:
+            return pygame.font.Font(pygame.font.get_default_font(), size)
+        except Exception as e:
+            print(e)
+            return pygame.font.Font(pygame.font.get_default_font(), DEFAULT_FONT_SIZE)
