@@ -1,11 +1,5 @@
-"""
-tile.py - Tile and TileMap Classes
-
-This module provides the Tile and TileMap classes for representing and drawing tiles in a game map.
-
-"""
-
 import pygame
+from spritesheet import SpriteSheet
 
 class Tile:
     """
@@ -18,10 +12,11 @@ class Tile:
         empty (bool): Flag indicating if the tile is empty.
         collision (bool): Flag indicating if the tile has collision.
         tile_size (int): The size of the tile.
+        image (pygame.Surface): The image to draw on the tile.
 
     """
 
-    def __init__(self, x, y, value, tile_size):
+    def __init__(self, x, y, value, tile_size, image=None):
         """
         Initialize a Tile object.
 
@@ -30,14 +25,16 @@ class Tile:
             y (int): The y-coordinate of the tile.
             value (int): The value of the tile.
             tile_size (int): The size of the tile.
+            image (pygame.Surface, optional): The image to draw on the tile.
 
         """
         self.x = x
         self.y = y
         self.value = value
-        self.empty = value == 1 # If value == 1: empty = 1, else empty = 0
-        self.collision = value != 0 # If value == 0: collision = 0, else collision = 1
+        self.empty = value == 1  # If value == 1: empty = 1, else empty = 0
+        self.collision = value != 0  # If value == 0: collision = 0, else collision = 1
         self.tile_size = tile_size
+        self.image = image
 
     def draw(self, surface):
         """
@@ -47,24 +44,29 @@ class Tile:
             surface (pygame.Surface): The surface to draw the tile on.
 
         """
-        tile_color = pygame.Color("white")  # Default color if image not found
+        if self.image is not None:
+            # Draw the image on the tile
+            surface.blit(self.image, (self.x * self.tile_size, self.y * self.tile_size))
+        else:
+            # Determine the tile color based on its value
+            tile_color = pygame.Color("white")  # Default color if no image
 
-        # Determine the tile color based on its value
-        if self.value == -2:  # Ultimate wall
-            tile_color = pygame.Color("black")
-        elif self.value == -1:  # Wall
-            tile_color = pygame.Color("gray")
-        elif self.value == 0:  # Door
-            tile_color = pygame.Color("brown")
-        elif self.value == 1: # Empty
-            tile_color = pygame.Color("white")
-        elif self.value == 2: # Rock
-            tile_color = pygame.Color("gray")
-        # Add more conditions for different values if needed
+            if self.value == -2:  # Ultimate wall
+                tile_color = pygame.Color("black")
+            elif self.value == -1:  # Wall
+                tile_color = pygame.Color("gray")
+            elif self.value == 0:  # Door
+                tile_color = pygame.Color("brown")
+            elif self.value == 1:  # Empty
+                tile_color = pygame.Color("white")
+            elif self.value == 2:  # Rock
+                tile_color = pygame.Color("gray")
+            # Add more conditions for different values if needed
 
-        # Draw the tile
-        tile_rect = pygame.Rect(self.x * self.tile_size, self.y * self.tile_size, self.tile_size, self.tile_size)
-        pygame.draw.rect(surface, tile_color, tile_rect)
+            # Draw the tile with the color
+            tile_rect = pygame.Rect(self.x * self.tile_size, self.y * self.tile_size, self.tile_size, self.tile_size)
+            pygame.draw.rect(surface, tile_color, tile_rect)
+
 
 
 class TileMap:
@@ -91,34 +93,22 @@ class TileMap:
         self.height = 0
         self.tile_map = []
 
+        # Create a SpriteSheet object to load images
+        sprite_sheet = SpriteSheet(pygame.image.load("assets/images/tile_sprite.png"))
+
         for y, row in enumerate(map_data):
             tile_row = []
             for x, value in enumerate(row):
-                tile = Tile(x, y, int(value), tile_size)
+                # Get the image for the tile based on its value
+                value = int(value)
+                image = sprite_sheet.get_image(value+2, tile_size, tile_size, 1, (1, 0, 0))
+
+                # Create the tile with the image
+                tile = Tile(x, y, int(value), tile_size, image)
                 tile_row.append(tile)
                 self.width += 1
             self.tile_map.append(tile_row)
             self.height += 1
-
-    def get_width(self):
-        """
-        Get the width of the tile map.
-
-        Returns:
-            int: The width of the tile map.
-
-        """
-        return self.width
-
-    def get_height(self):
-        """
-        Get the height of the tile map.
-
-        Returns:
-            int: The height of the tile map.
-
-        """
-        return self.height
 
     def draw(self, surface):
         """

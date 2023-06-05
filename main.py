@@ -10,7 +10,7 @@ screen = pygame.display.set_mode(WINDOW_SIZE)
 clock = pygame.time.Clock()
 
 # Load the map data
-map_data = csv_reader("assets/maps/map1.csv")
+map_data = csv_reader("assets/maps/map3.csv")
 
 # Create an instance of the MapGenerator
 generator = MapGenerator(7, 12)
@@ -35,7 +35,7 @@ while running:
                 if fullscreen:
                     pygame.display.set_mode(WINDOW_SIZE, pygame.FULLSCREEN)
                 else:
-                    pygame.display.set_mode(WINDOW_SIZE, pygame)
+                    pygame.display.set_mode(WINDOW_SIZE)
 
     screen.fill((255, 255, 255))  # Fill the screen with white
 
