@@ -32,9 +32,10 @@ class Tile:
         self.y = y
         self.value = value
         self.empty = value == 1  # If value == 1: empty = 1, else empty = 0
-        self.collision = value != 0  # If value == 0: collision = 0, else collision = 1
+        self.collision = not(value == 1 or value == 0)  # If value == 0: collision = 0, else collision = 1
         self.tile_size = tile_size
         self.image = image
+        self.rect = pygame.Rect(self.x * self.tile_size, self.y * self.tile_size, self.tile_size, self.tile_size)
 
     def draw(self, surface):
         """
@@ -79,7 +80,8 @@ class TileMap:
         tile_map (list): The 2D list representing the tile map.
 
     """
-
+    collision_map = []
+    door_map = []
     def __init__(self, map_data, tile_size):
         """
         Initialize a TileMap object.
@@ -105,10 +107,15 @@ class TileMap:
 
                 # Create the tile with the image
                 tile = Tile(x, y, int(value), tile_size, image)
+
                 tile_row.append(tile)
                 self.width += 1
             self.tile_map.append(tile_row)
             self.height += 1
+
+    def resetCollisions(self):
+        collision_map = []
+        door_map = []
 
     def draw(self, surface):
         """
@@ -118,6 +125,11 @@ class TileMap:
             surface (pygame.Surface): The surface to draw the tile map on.
 
         """
+        self.resetCollisions()
         for row in self.tile_map:
             for tile in row:
+                if tile.collision == 1:
+                    self.collision_map.append(tile.rect)
+                if tile.value == 0:
+                    self.door_map.append(tile.rect)
                 tile.draw(surface)
