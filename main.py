@@ -9,8 +9,6 @@ WINDOW_SIZE = (1280, 720)
 screen = pygame.display.set_mode(WINDOW_SIZE)
 clock = pygame.time.Clock()
 
-# Load the map data
-
 # Create an instance of the MapGenerator
 generator = MapGenerator(9, 13)
 generator.generate_map()
@@ -18,7 +16,6 @@ spawn = generator.get_spawn_room()
 
 # Create the TileMap object
 TILE_SIZE = 40
-
 
 fullscreen = False  # Flag to track fullscreen state
 
@@ -43,7 +40,7 @@ while running:
     spawn.draw(screen)
 
     # Display the map
-    # generator.display_map(screen)
+    generator.display_map(screen, spawn.get_coordinates())
 
     pygame.display.flip()
     clock.tick(60)

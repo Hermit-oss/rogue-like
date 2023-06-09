@@ -167,27 +167,29 @@ class MapGenerator:
     def get_current_room(self, x, y):
         return self.map_layout[x][y]
 
-    def display_map(self, screen):
+    def display_map(self, screen, current_room_coords):
         """
         Displays the map on the provided pygame screen.
 
         Parameters:
             screen (pygame.Surface): The pygame screen surface to display the map.
+            current_room_coords (tuple): The coordinates of the current room to be highlighted.
         """
         tile_size = 10      # Size of the map squares in pixels
         spacing = 1         # Size of the spacing between squares in pixels
         colors = {
-            0: (0, 0, 0),   # Color for 0 (empty) cells
-            1: (255, 0, 0), # Color for 1 (room) cells
+            Room: (255, 255, 255),  # Color for Room cells
         }
+        highlight_color = (255, 0, 0)  # Color for highlighting the current room
 
-        map_height = len(self.map_layout)
-        map_width = len(self.map_layout[0])
-
-        for y in range(map_height):
-            for x in range(map_width):
-                if y < len(self.map_layout) and x < len(self.map_layout[y]):
-                    cell_color = colors[self.map_layout[y][x]]
+        for y, row in enumerate(self.map_layout):
+            for x, cell in enumerate(row):
+                if isinstance(cell, Room):
+                    cell_color = colors[Room]
                     rect_x = x * (tile_size + spacing)
                     rect_y = y * (tile_size + spacing)
                     pygame.draw.rect(screen, cell_color, (rect_x, rect_y, tile_size, tile_size))
+
+                    # Highlight the current room
+                    if cell.get_coordinates() == current_room_coords:
+                        pygame.draw.rect(screen, highlight_color, (rect_x, rect_y, tile_size, tile_size))
