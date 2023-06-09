@@ -1,5 +1,6 @@
 import random
 import pygame
+from room import Room
 
 class MapGenerator:
     """
@@ -70,7 +71,8 @@ class MapGenerator:
         """
         center_x = self.width // 2
         center_y = self.height // 2
-        self._create_room(center_x, center_y)
+        room = Room(center_x, center_y)
+        self.rooms.append((center_x, center_y))
 
         room_count = 1
 
@@ -83,11 +85,13 @@ class MapGenerator:
             for direction in directions:
                 new_x, new_y = direction
                 if self._can_create_room(new_x, new_y):
-                    self._create_room(new_x, new_y)
+                    room = Room(new_x, new_y)
+                    self.map_layout[new_y][new_x] = room
+                    self.rooms.append((new_x, new_y))
                     room_count += 1
                     break
 
-        self._strip_unnecessary_zeros()
+        # self._strip_unnecessary_zeros()
 
     def _can_create_room(self, x, y):
         """
@@ -108,16 +112,16 @@ class MapGenerator:
             return True
         return False
 
-    def _create_room(self, x, y):
-        """
-        Creates a room at the given coordinates and adds it to the rooms list.
+    # def _create_room(self, x, y):
+    #     """
+    #     Creates a room at the given coordinates and adds it to the rooms list.
 
-        Parameters:
-            x (int): The x-coordinate of the room.
-            y (int): The y-coordinate of the room.
-        """
-        self.map_layout[y][x] = 1
-        self.rooms.append((x, y))
+    #     Parameters:
+    #         x (int): The x-coordinate of the room.
+    #         y (int): The y-coordinate of the room.
+    #     """
+    #     self.map_layout[y][x] = 1
+    #     self.rooms.append((x, y))
 
     def _strip_unnecessary_zeros(self):
         """
@@ -153,6 +157,13 @@ class MapGenerator:
             list: A list of lists representing the map layout.
         """
         return self.map_layout
+    
+    def get_spawn_room(self):
+        x, y = self.rooms[0]
+        return self.map_layout[x][y]
+
+    def get_current_room(self, x, y):
+        return self.map_layout[x][y]
 
     def display_map(self, screen):
         """
