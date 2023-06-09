@@ -72,7 +72,9 @@ class MapGenerator:
         center_x = self.width // 2
         center_y = self.height // 2
         room = Room(center_x, center_y)
+        self.map_layout[center_x][center_y] = room
         self.rooms.append((center_x, center_y))
+
 
         room_count = 1
 
@@ -83,10 +85,10 @@ class MapGenerator:
             random.shuffle(directions)
 
             for direction in directions:
-                new_x, new_y = direction
+                (new_x, new_y) = direction
                 if self._can_create_room(new_x, new_y):
                     room = Room(new_x, new_y)
-                    self.map_layout[new_y][new_x] = room
+                    self.map_layout[new_x][new_y] = room
                     self.rooms.append((new_x, new_y))
                     room_count += 1
                     break
@@ -107,7 +109,7 @@ class MapGenerator:
         if (
             0 <= x < self.width and
             0 <= y < self.height and
-            self.map_layout[y][x] == 0
+            self.map_layout[x][y] == 0
         ):
             return True
         return False
@@ -159,7 +161,7 @@ class MapGenerator:
         return self.map_layout
     
     def get_spawn_room(self):
-        x, y = self.rooms[0]
+        (x, y) = self.rooms[0]
         return self.map_layout[x][y]
 
     def get_current_room(self, x, y):
