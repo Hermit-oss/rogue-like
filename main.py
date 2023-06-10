@@ -13,7 +13,8 @@ clock = pygame.time.Clock()
 generator = MapGenerator(9, 13)
 generator.generate_map()
 spawn = generator.get_spawn_room()
-character = Character(640, 240, 2, 3)
+actual_room = spawn
+character = Character(3, 3)
 # Create the TileMap object
 TILE_SIZE = 40
 
@@ -45,12 +46,15 @@ while running:
     screen.fill((255, 255, 255))  # Fill the screen with white
 
     # Draw the tile map
-    spawn.draw(screen)
+    actual_room.draw(screen)
+
+
+    #print(actual_room.get_coordinates())
 
     # Display the map
-    generator.display_map(screen, spawn.get_coordinates())
-    generator.display_map(screen, spawn.get_coordinates())
-    Character.update(character)
+    generator.display_map(screen, actual_room.get_coordinates())
+    generator.display_map(screen, actual_room.get_coordinates())
+    actual_room = Character.update(character, actual_room, generator)
     pygame.draw.rect(screen, character.color, character.rect)
 
     pygame.display.flip()

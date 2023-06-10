@@ -113,9 +113,9 @@ class TileMap:
             self.tile_map.append(tile_row)
             self.height += 1
 
-    def resetCollisions(self):
-        collision_map = []
-        door_map = []
+    def reset_collisions(self):
+        self.collision_map.clear()
+        self.door_map.clear()
 
     def draw(self, surface):
         """
@@ -125,7 +125,6 @@ class TileMap:
             surface (pygame.Surface): The surface to draw the tile map on.
 
         """
-        self.resetCollisions()
         for row in self.tile_map:
             for tile in row:
                 if tile.collision == 1:

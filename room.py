@@ -20,3 +20,6 @@ class Room():
 
     def get_coordinates(self):
         return (self.x_coordinate, self.y_coordinate)
+
+    def get_tile_map(self):
+        return self.tile_map
