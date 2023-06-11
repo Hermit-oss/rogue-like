@@ -52,7 +52,7 @@ class MapGenerator:
         self.rooms = []
 
 
-    def generate_map(self):
+    def generate_map(self, surface):
         """
         Generates the map layout using the algorithm.
 
@@ -71,7 +71,7 @@ class MapGenerator:
         """
         center_x = self.width // 2
         center_y = self.height // 2
-        room = Room(center_x, center_y)
+        room = Room(surface, center_x, center_y)
         self.map_layout[center_x][center_y] = room
         self.rooms.append((center_x, center_y))
 
@@ -87,7 +87,7 @@ class MapGenerator:
             for direction in directions:
                 (new_x, new_y) = direction
                 if self._can_create_room(new_x, new_y):
-                    room = Room(new_x, new_y)
+                    room = Room(surface, new_x, new_y)
                     self.map_layout[new_x][new_y] = room
                     self.rooms.append((new_x, new_y))
                     room_count += 1
