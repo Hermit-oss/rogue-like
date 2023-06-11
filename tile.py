@@ -32,7 +32,7 @@ class Tile:
         self.y = y
         self.value = value
         self.empty = value == 1  # If value == 1: empty = 1, else empty = 0
-        self.collision = not(value == 1 or value == 0)  # If value == 0: collision = 0, else collision = 1
+        self.collision = not(value == 1 or value == 0 or value ==5)  # If value == 0: collision = 0, else collision = 1
         self.tile_size = tile_size
         self.image = image
         self.rect = pygame.Rect(self.x * self.tile_size, self.y * self.tile_size, self.tile_size, self.tile_size)
@@ -62,7 +62,7 @@ class Tile:
                 tile_color = pygame.Color("white")
             elif self.value == 2:  # Rock
                 tile_color = pygame.Color("gray")
-            # Add more conditions for different values if needed
+
 
             # Draw the tile with the color
             tile_rect = pygame.Rect(self.x * self.tile_size, self.y * self.tile_size, self.tile_size, self.tile_size)
@@ -82,6 +82,7 @@ class TileMap:
     """
     collision_map = []
     door_map = []
+    
     def __init__(self, map_data, tile_size):
         """
         Initialize a TileMap object.
@@ -94,9 +95,12 @@ class TileMap:
         self.width = 0
         self.height = 0
         self.tile_map = []
+        self.box_bullet = []
+        self.box_health = []
+        self.dmap = []
 
         # Create a SpriteSheet object to load images
-        sprite_sheet = SpriteSheet(pygame.image.load("assets/images/tile_sprite.png"))
+        sprite_sheet = SpriteSheet(pygame.image.load("assets/images/tile_sprite3.png"))
 
         for y, row in enumerate(map_data):
             tile_row = []
@@ -131,4 +135,10 @@ class TileMap:
                     self.collision_map.append(tile.rect)
                 if tile.value == 0:
                     self.door_map.append(tile.rect)
+                if tile.value == 3:
+                    self.box_bullet.append(tile.rect)
+                if tile.value == 4:
+                    self.box_health.append(tile.rect)
+                if tile.value == 5:
+                    self.dmap.append(tile.rect)
                 tile.draw(surface)

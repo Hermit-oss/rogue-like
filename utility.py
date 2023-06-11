@@ -46,6 +46,7 @@ def csv_reader(filename):
     except Exception as e:
         print(e)
         map_data = csv.reader(DEFAULT_ROOM_LAYOUT, delimiter=',')
+        print(map_data)
         for row in map_data:
             map.append(list(row))
         return map

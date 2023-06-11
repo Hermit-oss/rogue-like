@@ -24,9 +24,6 @@ class Character(object):
         self.y = self.starting_y  # Position of character in y-axis
         self.rect = pygame.Rect(self.x, self.y, CHARACTER_SIZE, CHARACTER_SIZE)
 
-
-        self.money=0 #how much money does character has
-        self.bomb=0 # how many bombs does character has
         self.causing_damage=10 #how much damage can character cause
         self.orientation=1 # 1=left or 0=right orientation to shot bullets
 
@@ -75,7 +72,7 @@ class Character(object):
                 pass
             else:
                 self.x = self.starting_x
-                self.y = 92
+                self.y = 120
                 map.get_current_room(x_room + 1, y_room).get_tile_map().reset_collisions()
                 return map.get_current_room(x_room + 1, y_room)
 
@@ -112,6 +109,7 @@ class Character(object):
         if future_rect.collidelistall(tile.TileMap.collision_map):
             pass
         else:
+            self.orientation=2
             self.y += self.speed
 
     def move_up(self):
@@ -119,4 +117,5 @@ class Character(object):
         if future_rect.collidelistall(tile.TileMap.collision_map):
             pass
         else:
+            self.orientation=3
             self.y -= self.speed
