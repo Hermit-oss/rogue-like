@@ -28,11 +28,14 @@ class Room():
         self.boxesPower = []
         self.boxesHealth = []
         self.enemies = enemy_class(surface)
-
+        self.isGenerated = False
+        
 
     def draw(self, surface):
         self.tile_map.draw(surface)
-        self.boxesPower,self.boxesHealth=box_bomb.genre_boxes(self.tile_map)
+        if(not self.isGenerated):
+            self.boxesPower,self.boxesHealth=box_bomb.genre_boxes(self.tile_map)
+            self.isGenerated = True
         self.enemies.display_enemy(surface)
 
     def place_enemies(self, enemy_check):

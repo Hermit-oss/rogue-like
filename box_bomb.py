@@ -1,7 +1,7 @@
 import random
 import tile
-money_amount=0
-
+health=0
+power=0
 
 def genre_boxes(tileMap):
     boxWithBulletPower=[]
@@ -23,26 +23,27 @@ class Box(object):
         self.width=40
         self.height=40
         self.type=type #0-money 1- bomb
-        
+        self.destroyed= False
 
     def hit(self,hero_bullet_power):
-        
         self.health_point-=hero_bullet_power
-        if self.health_point<=0:
+        if self.health_point<=0 and not self.destroyed:
+            self.destroyed= True
             if self.type==0:
                 Box.dead_bullet_power(self)
-                print("zgon")
             if self.type==1:
                 Box.dead_health_points(self)
-                print("zgon")
+
 
     def dead_bullet_power(self):
-        global money_amount 
-        money_amount +=  random.randint(2,5)
-        print("Im dead, a ty masz mocniejszy pocisk")
+        global power
+        power=1
+
     
     def dead_health_points(self):
-        print("Im dead, a ty zdrowszy")
+        global health
+        health +=  random.randint(2,5)
+        
 
 
 

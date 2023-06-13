@@ -3,7 +3,7 @@ import pygame
 import room
 import tile
 import map
-
+import box_bomb
 CHARACTER_SIZE = 16
 I_FRAMES = 1500
 COLOR_OF_CHARACTER_ALIVE = (31, 14, 65)
@@ -29,6 +29,11 @@ class Character(object):
 
 
     def update(self, actual_room, map):
+        self.health_points+=box_bomb.health
+        box_bomb.health=0
+        self.causing_damage+=box_bomb.power
+        box_bomb.power=0
+        
         x_room, y_room = actual_room.get_coordinates()
         self.rect.update(self.x, self.y, CHARACTER_SIZE, CHARACTER_SIZE)  # Update collision rect
         enemy_check = False

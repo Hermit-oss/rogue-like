@@ -82,6 +82,8 @@ class TileMap:
     """
     collision_map = []
     door_map = []
+    box_bullet = []
+    box_health = []
     
     def __init__(self, map_data, tile_size):
         """
@@ -95,8 +97,6 @@ class TileMap:
         self.width = 0
         self.height = 0
         self.tile_map = []
-        self.box_bullet = []
-        self.box_health = []
         self.dmap = []
 
         # Create a SpriteSheet object to load images

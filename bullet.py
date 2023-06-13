@@ -2,6 +2,10 @@ import pygame
 from room import *
 from enemies import *
 from tile import *
+
+
+            
+
 class Bullet(object):
     def __init__(self,x,y,radius,color,facing,power):
         self.x = x
@@ -15,7 +19,14 @@ class Bullet(object):
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
-        
+
+    @staticmethod
+    def shoot_box_bomb(bullet, elements, heroBulletPower):
+        for index in range(len(elements)): 
+            if bullet.x>=(elements[index].x-10) and bullet.x<=(elements[index].x+50):
+                if bullet.y>=(elements[index].y - 10) and bullet.y<=(elements[index].y+50):
+                    elements[index].hit(heroBulletPower)
+                    break
 
     def shoot(bullets,SCREEN_WIDTH,SCREEN_HEIGHT, cur_room, hero_bullet_power):
 
@@ -45,24 +56,6 @@ class Bullet(object):
                         break
 
         for bullet in bullets:
-            if len(boxes)>0:
-                for boxindex in range(len(boxes)):    
-                    if bullet.x>(boxes[boxindex].x) and bullet.x<(boxes[boxindex].x+40):
-                        if bullet.y>(boxes[boxindex].y) and bullet.y<(boxes[boxindex].y+40):
-                            boxes[boxindex].hit(20)
-                            bullets.pop(bullets.index(bullet)) 
-                            break
-
-
-            if len(bombs)>0:
-                for bombindex in range(len(bombs)):    
-                    if bullet.x>(bombs[bombindex].x) and bullet.x<(bombs[bombindex].x+40):
-                        if bullet.y>(bombs[bombindex].y) and bullet.y<(bombs[bombindex].y+40):
-                            bombs[bombindex].hit(20)
-                            bullets.pop(bullets.index(bullet)) 
-                            break
-
-
 
             if bullet.facing==0: #w prawo leci pocisk
                 if bullet.x < SCREEN_WIDTH and bullet.x > 0:
@@ -70,8 +63,13 @@ class Bullet(object):
                     if not future_rect.collidelistall(tile.TileMap.collision_map):
                         bullet.x += bullet.vel
                     else:
+                        if future_rect.collidelistall(tile.TileMap.box_bullet):
+                            Bullet.shoot_box_bomb(bullet, boxes, 20)
+                        if future_rect.collidelistall(tile.TileMap.box_health):
+                            Bullet.shoot_box_bomb(bullet, bombs, 20)
                         bullets.pop(bullets.index(bullet))
                 else:
+                    # print("hello")
                     bullets.pop(bullets.index(bullet)) 
                     
             if bullet.facing==1: #w lewo leci pocisk
@@ -80,6 +78,10 @@ class Bullet(object):
                     if not future_rect.collidelistall(tile.TileMap.collision_map):
                         bullet.x -= bullet.vel
                     else:
+                        if future_rect.collidelistall(tile.TileMap.box_bullet):
+                            Bullet.shoot_box_bomb(bullet, boxes, 20)
+                        if future_rect.collidelistall(tile.TileMap.box_health):
+                            Bullet.shoot_box_bomb(bullet, bombs, 20)
                         bullets.pop(bullets.index(bullet))
                 else:
                     bullets.pop(bullets.index(bullet)) 
@@ -90,6 +92,10 @@ class Bullet(object):
                     if not future_rect.collidelistall(tile.TileMap.collision_map):
                         bullet.y += bullet.vel
                     else:
+                        if future_rect.collidelistall(tile.TileMap.box_bullet):
+                            Bullet.shoot_box_bomb(bullet, boxes, 20)
+                        if future_rect.collidelistall(tile.TileMap.box_health):
+                            Bullet.shoot_box_bomb(bullet, bombs, 20)
                         bullets.pop(bullets.index(bullet))
                 else:
                     bullets.pop(bullets.index(bullet)) 
@@ -100,6 +106,10 @@ class Bullet(object):
                     if not future_rect.collidelistall(tile.TileMap.collision_map):
                         bullet.y -= bullet.vel
                     else:
+                        if future_rect.collidelistall(tile.TileMap.box_bullet):
+                            Bullet.shoot_box_bomb(bullet, boxes, 20)
+                        if future_rect.collidelistall(tile.TileMap.box_health):
+                            Bullet.shoot_box_bomb(bullet, bombs, 20)
                         bullets.pop(bullets.index(bullet))
                 else:
                     bullets.pop(bullets.index(bullet))  

@@ -53,7 +53,10 @@ while running:
         if len(bullets) < 3: #max 3 pociski
             if bullet_counter%10==0:
                 bullets.append(Bullet(character.x , character.y , 4, (0,0,0), character.orientation, character.causing_damage))
-
+    if key[pygame.K_m]:
+        print("Zdrowie to: ",character.health_points)
+    if key[pygame.K_n]:
+        print("Sila pocisku to: ",character.causing_damage)
     # Draw the tile map
     actual_room.draw(screen)
        
