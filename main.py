@@ -19,7 +19,7 @@ actual_room = spawn
 character = Character(3, 3)
 enemy_check=True
 bullets=[]
-bullet_counter=0
+cooldown_counter=0
 # Create the TileMap object
 TILE_SIZE = 40
 
@@ -51,7 +51,7 @@ while running:
     screen.fill((255, 255, 255))  # Fill the screen with white
     if key[pygame.K_c]:
         if len(bullets) < 3: #max 3 pociski
-            if bullet_counter%10==0:
+            if cooldown_counter%10==0:
                 bullets.append(Bullet(character.x , character.y , 4, (0,0,0), character.orientation, character.causing_damage))
     if key[pygame.K_m]:
         print("Zdrowie to: ",character.health_points)
@@ -60,12 +60,17 @@ while running:
     # Draw the tile map
     actual_room.draw(screen)
        
-    Bullet.shoot(bullets, screen.get_size()[0], screen.get_size()[1], actual_room, character.causing_damage)
+    Bullet.shoot(bullets, screen.get_size()[0], screen.get_size()[1], actual_room, character.causing_damage, False, character)
+    Bullet.shoot(actual_room.enemies.enemy_bullets, screen.get_size()[0], screen.get_size()[1], actual_room, character.causing_damage, True, character)
+
     for bullet in bullets:
         bullet.draw(screen)
 
+    for bullet in actual_room.enemies.enemy_bullets:
+        bullet.draw(screen)
+
     actual_room.place_enemies(enemy_check)
-    actual_room.enemies.MoveAndDo((character.x, character.y))
+    actual_room.enemies.MoveAndDo((character.x, character.y), character, cooldown_counter)
 
     # Display the map
     #generator.display_map(screen, actual_room.get_coordinates())
@@ -75,6 +80,6 @@ while running:
 
     pygame.display.flip()
     clock.tick(60)
-    bullet_counter+=1
-
+    cooldown_counter+=1
+    print(character.health_points)
 pygame.quit()

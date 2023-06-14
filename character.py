@@ -26,6 +26,7 @@ class Character(object):
 
         self.causing_damage=10 #how much damage can character cause
         self.orientation=1 # 1=left or 0=right orientation to shot bullets
+        self.alive = True #am I alive???????????????????????????????
 
 
     def update(self, actual_room, map):
@@ -129,3 +130,8 @@ class Character(object):
         else:
             self.orientation=3
             self.y -= self.speed
+
+    def hit(self, damage):
+        self.health_points-=damage
+        if self.health_points<=0:
+            self.alive = False
