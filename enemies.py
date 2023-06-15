@@ -29,7 +29,7 @@ class enemy_class():
         self.enemy_attack_cooldown=[]
 
         win_x, win_y = screen.get_size()
-        amount = random.randint(3, 5)
+        amount = random.randint(1, 2)
         for i in range(amount):
             enemy_type = random.randint(0,2)  #losuje rodzaj oponenta
             enemy_X = random.randint(60, win_x-80)
@@ -49,7 +49,7 @@ class enemy_class():
                 self.enemy_hp.append(30)
                 self.shooter.append(False)
                 self.enemy_dmg.append(1)
-                self.enemy_attack_cooldown.append(25)
+                self.enemy_attack_cooldown.append(35)
 
             elif enemy_type==1:                 #op typu 1, bedzie strzelal i ucieka od gracza. nie bardzo twardy
 #                self.enemies_imgs.append(pygame.image.load("assets/imgs/strzelacz.png"))
@@ -60,7 +60,7 @@ class enemy_class():
                 self.enemy_hp.append(20)
                 self.shooter.append(True)
                 self.enemy_dmg.append(1)
-                self.enemy_attack_cooldown.append(50)
+                self.enemy_attack_cooldown.append(80)
 
 
             else:                               #op typu 2, biegnie do gracza, szybko, miękki
@@ -72,7 +72,7 @@ class enemy_class():
                 self.enemy_hp.append(10)
                 self.shooter.append(False)
                 self.enemy_dmg.append(1)
-                self.enemy_attack_cooldown.append(15)
+                self.enemy_attack_cooldown.append(25)
 
 
 #            width = self.enemies_imgs[i].get_width()
@@ -100,6 +100,9 @@ class enemy_class():
                 self.enemy_change_Y.pop(i)
                 self.enemy_hp.pop(i)
                 self.if_draw.pop(i)
+                self.shooter.pop(i)
+                self.enemy_dmg.pop(i)
+                self.enemy_attack_cooldown.pop(i)
                 i-=1
                 length-=1
             i+=1
@@ -120,6 +123,7 @@ class enemy_class():
             if mouse_pos[0]>self.enemy_X[i]:
                 future_rect1 = pygame.Rect(self.enemy_X[i]+self.enemy_change_X[i], self.enemy_Y[i], EN_SIZE, EN_SIZE)  # Character.rect after movement
                 orient+=1
+
                 if not future_rect1.collidelistall(tile.TileMap.collision_map) and not future_rect1.collidelistall(self.enemy_recs) and not future_rect1.colliderect(char.rect):
                     self.enemy_X[i]+=self.enemy_change_X[i]
                 if future_rect1.colliderect(char.rect) and self.shooter[i]==False and cooldown%self.enemy_attack_cooldown[i]==0:
@@ -129,6 +133,7 @@ class enemy_class():
             elif mouse_pos[0]<self.enemy_X[i]:
                 future_rect1 = pygame.Rect(self.enemy_X[i]-self.enemy_change_X[i], self.enemy_Y[i], EN_SIZE, EN_SIZE)  # Character.rect after movement
                 orient+=6
+
                 if not future_rect1.collidelistall(tile.TileMap.collision_map) and not future_rect1.collidelistall(self.enemy_recs) and not future_rect1.colliderect(char.rect):
                     self.enemy_X[i]-=self.enemy_change_X[i]
                 elif future_rect1.colliderect(char.rect) and self.shooter[i]==False and cooldown%self.enemy_attack_cooldown[i]==0:
@@ -139,6 +144,7 @@ class enemy_class():
             if mouse_pos[1]>self.enemy_Y[i]:
                 future_rect1 = pygame.Rect(self.enemy_X[i], self.enemy_Y[i]+self.enemy_change_Y[i], EN_SIZE, EN_SIZE)  # Character.rect after movement
                 orient+=4
+
                 if not future_rect1.collidelistall(tile.TileMap.collision_map) and not future_rect1.collidelistall(self.enemy_recs) and not future_rect1.colliderect(char.rect):
                     self.enemy_Y[i]+=self.enemy_change_Y[i]
                 elif future_rect1.colliderect(char.rect) and self.shooter[i]==False and cooldown%self.enemy_attack_cooldown[i]==0:
@@ -155,10 +161,10 @@ class enemy_class():
                     self.enemy_Y[i]-=self.enemy_change_Y[i]
                     if dealt_dmg == False:
                         char.hit(self.enemy_dmg[i])
-            dealt_dmg = False
 
-            if self.shooter[i]==True and cooldown%self.enemy_attack_cooldown[i]==0 and (orient in {1, 2, 3, 4, 5, 6, 8, 10}):
-                print(i)
+
+            if dealt_dmg==False and self.shooter[i]==True and (cooldown%self.enemy_attack_cooldown[i]==0) and (orient in {1, 2, 3, 4, 5, 6, 8, 10}):
                 self.enemy_bullets.append(Bullet(self.enemy_X[i] , self.enemy_Y[i] , 4, (0,0,0), orient, self.enemy_dmg[i]))
 
+            dealt_dmg = False
             self.enemy_recs.insert(i, pygame.Rect(self.enemy_X[i], self.enemy_Y[i], EN_SIZE, EN_SIZE))

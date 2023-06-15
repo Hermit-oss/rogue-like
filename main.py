@@ -81,5 +81,4 @@ while running:
     pygame.display.flip()
     clock.tick(60)
     cooldown_counter+=1
-    print(character.health_points)
 pygame.quit()
