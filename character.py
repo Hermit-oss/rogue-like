@@ -13,7 +13,7 @@ COLOR_OF_CHARACTER_DEAD = (255, 0, 2)
 class Character(object):
     starting_x = 632
     starting_y = 232
-    def __init__(self,speed, health_point):
+    def __init__(self,speed, health_point,COLOR_OF_CHARACTER_ALIVE):
         self.i_frames = I_FRAMES  # Invincibility frames, can't get hit in this time
         self.can_hit = 1  # 0 can't get hit, 1 can get hit
         self.color = COLOR_OF_CHARACTER_ALIVE
