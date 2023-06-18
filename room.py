@@ -55,3 +55,6 @@ class Room():
 
     def get_tile_map(self):
         return self.tile_map
+
+    def remove_door(self, direction):
+        self.tile_map.door_remover(direction)

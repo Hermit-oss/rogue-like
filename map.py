@@ -93,7 +93,7 @@ class MapGenerator:
                     room_count += 1
                     break
 
-        # self._strip_unnecessary_zeros()
+        self.remove_doors_without_neighbors()
 
     def _can_create_room(self, x, y):
         """
@@ -114,42 +114,57 @@ class MapGenerator:
             return True
         return False
 
-    # def _create_room(self, x, y):
-    #     """
-    #     Creates a room at the given coordinates and adds it to the rooms list.
-
-    #     Parameters:
-    #         x (int): The x-coordinate of the room.
-    #         y (int): The y-coordinate of the room.
-    #     """
-    #     self.map_layout[y][x] = 1
-    #     self.rooms.append((x, y))
-
-    def _strip_unnecessary_zeros(self):
+    def remove_doors_without_neighbors(self):
         """
-        Removes unnecessary rows and columns from the map layout.
+        Removes doors from rooms that do not have neighbors in specific directions.
         """
-        first_col = next(
-            (col for col in range(self.width) if any(row[col] for row in self.map_layout)),
-            0
-        )
-        last_col = next(
-            (col for col in range(self.width - 1, -1, -1) if any(row[col] for row in self.map_layout)),
-            self.width - 1
-        )
-        first_row = next(
-            (row for row in range(self.height) if any(self.map_layout[row])),
-            0
-        )
-        last_row = next(
-            (row for row in range(self.height - 1, -1, -1) if any(self.map_layout[row])),
-            self.height - 1
-        )
+        directions = ['left', 'right', 'up', 'down']
 
-        self.map_layout = [
-            row[first_col:last_col + 1]
-            for row in self.map_layout[first_row:last_row + 1]
-        ]
+        for room in self.rooms:
+            x, y = room
+            current_room = self.map_layout[x][y]
+
+            for direction in directions:
+                neighbor_x, neighbor_y = self._get_neighbor_coordinates(x, y, direction)
+
+                if (neighbor_x, neighbor_y) not in self.rooms:
+                    current_room.remove_door(direction)
+
+    def _is_valid_coordinates(self, x, y):
+        """
+        Checks if the given coordinates are valid within the map bounds.
+
+        Parameters:
+            x (int): The x-coordinate.
+            y (int): The y-coordinate.
+
+        Returns:
+            bool: True if the coordinates are valid, False otherwise.
+        """
+        return 0 <= x < self.width and 0 <= y < self.height
+
+    def _get_neighbor_coordinates(self, x, y, direction):
+        """
+        Returns the coordinates of the neighboring cell in the specified direction.
+
+        Parameters:
+            x (int): The x-coordinate of the current cell.
+            y (int): The y-coordinate of the current cell.
+            direction (str): The direction to check ('left', 'right', 'up', 'down').
+
+        Returns:
+            tuple: The coordinates of the neighboring cell.
+        """
+        if direction == 'left':
+            return x - 1, y
+        elif direction == 'right':
+            return x + 1, y
+        elif direction == 'up':
+            return x, y - 1
+        elif direction == 'down':
+            return x, y + 1
+
+        return x, y
     
     def get_map_layout(self):
         """

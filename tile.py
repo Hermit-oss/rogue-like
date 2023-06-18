@@ -84,7 +84,8 @@ class TileMap:
     door_map = []
     box_bullet = []
     box_health = []
-    
+    tile_door_map_coordinates = []
+
     def __init__(self, map_data, tile_size):
         """
         Initialize a TileMap object.
@@ -113,6 +114,10 @@ class TileMap:
                 tile = Tile(x, y, int(value), tile_size, image)
 
                 tile_row.append(tile)
+
+                if value == 0:
+                    self.tile_door_map_coordinates.append((x, y))
+
                 self.width += 1
             self.tile_map.append(tile_row)
             self.height += 1
@@ -142,3 +147,25 @@ class TileMap:
                 if tile.value == 5:
                     self.dmap.append(tile.rect)
                 tile.draw(surface)
+
+    def door_remover(self, direction):
+        if direction == 'up': # 2, 4
+            (x, y) = self.tile_door_map_coordinates[2]
+            self.tile_map[y][x].image = None
+            (x, y) = self.tile_door_map_coordinates[4]
+            self.tile_map[y][x].image = None
+        elif direction == 'down': # 3, 5
+            (x, y) = self.tile_door_map_coordinates[3]
+            self.tile_map[y][x].image = None
+            (x, y) = self.tile_door_map_coordinates[5]
+            self.tile_map[y][x].image = None
+        elif direction == 'left': # 0, 1
+            (x, y) = self.tile_door_map_coordinates[0]
+            self.tile_map[y][x].image = None
+            (x, y) = self.tile_door_map_coordinates[1]
+            self.tile_map[y][x].image = None
+        elif direction == 'right': # 6, 7
+            (x, y) = self.tile_door_map_coordinates[6]
+            self.tile_map[y][x].image = None
+            (x, y) = self.tile_door_map_coordinates[7]
+            self.tile_map[y][x].image = None
