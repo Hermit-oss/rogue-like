@@ -5,14 +5,14 @@ import tile
 import map
 import box_bomb
 CHARACTER_SIZE = 16
-I_FRAMES = 1500
+I_FRAMES = 50
 COLOR_OF_CHARACTER_ALIVE = (31, 14, 65)
 COLOR_OF_CHARACTER_DEAD = (255, 0, 2)
 
 
 class Character(object):
     starting_x = 632
-    starting_y = 232
+    starting_y = 648
     def __init__(self,speed, health_point,COLOR_OF_CHARACTER_ALIVE):
         self.i_frames = I_FRAMES  # Invincibility frames, can't get hit in this time
         self.can_hit = 1  # 0 can't get hit, 1 can get hit
@@ -38,17 +38,16 @@ class Character(object):
         x_room, y_room = actual_room.get_coordinates()
         self.rect.update(self.x, self.y, CHARACTER_SIZE, CHARACTER_SIZE)  # Update collision rect
         enemy_check = False
-        #if self.rect.collidelistall(tile.TileMap.dmap) and self.can_hit:  # Check if collide with list of tiles that causes damage
-        #    self.health_points -= 1
-        #    self.can_hit = 0
-        #    self.i_frames = 0
+        if self.rect.collidelistall(tile.TileMap.spike_map) and self.can_hit:  # Check if collide with list of tiles that causes damage
+            self.health_points -= 1
+            self.can_hit = 0
+            self.i_frames = 0
         if (self.rect.colliderect(tile.TileMap.door_map[0]) or self.rect.colliderect(tile.TileMap.door_map[1])):
             #Go up
             if map.get_current_room(x_room-1, y_room) == 0:
                 pass
             else:
-                self.x = self.starting_x
-                self.y = 608
+                self.y = 664
                 map.get_current_room(x_room - 1, y_room).get_tile_map().reset_collisions()
                 enemy_check=True
                 return map.get_current_room(x_room-1, y_room), enemy_check
@@ -59,8 +58,7 @@ class Character(object):
             if map.get_current_room(x_room, y_room-1) == 0:
                 pass
             else:
-                self.x = 1172
-                self.y = 352
+                self.x = 1184
                 map.get_current_room(x_room, y_room-1).get_tile_map().reset_collisions()
                 enemy_check=True
                 return map.get_current_room(x_room, y_room-1), enemy_check
@@ -70,8 +68,7 @@ class Character(object):
             if map.get_current_room(x_room, y_room+1) == 0:
                 pass
             else:
-                self.x = 92
-                self.y = 352
+                self.x = 80
                 map.get_current_room(x_room, y_room+1).get_tile_map().reset_collisions()
                 enemy_check=True
                 return map.get_current_room(x_room, y_room+1), enemy_check
@@ -81,18 +78,19 @@ class Character(object):
             if map.get_current_room(x_room + 1, y_room) == 0:
                 pass
             else:
-                self.x = self.starting_x
                 self.y = 120
                 map.get_current_room(x_room + 1, y_room).get_tile_map().reset_collisions()
                 enemy_check=True
                 return map.get_current_room(x_room + 1, y_room), enemy_check
 
-
         if self.i_frames < I_FRAMES and self.can_hit == 0:  # Increase i_frames every frame after hit
-             self.i_frames += 1
+            self.i_frames += 1
 
-        if self.i_frames == I_FRAMES and self.can_hit == 0:  # Check if character can be hit
+
+
+        if self.i_frames >= I_FRAMES and self.can_hit == 0:  # Check if character can be hit
             self.can_hit = 1 # Character can be hit
+
 
         if self.health_points <= 0 and self.status == 1:  # Check if character is dead
             self.status = 0  # Character is dead

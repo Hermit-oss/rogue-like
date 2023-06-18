@@ -1,3 +1,4 @@
+from box_bomb import Box
 import pygame
 from room import *
 from enemies import *
@@ -90,6 +91,7 @@ class Bullet(object):
         i=-1
         for bullet in bullets:
             i+=1
+            Box.message = ""
             if if_enemy==False:
                 if bullet.facing==0: #w prawo leci pocisk
                     if bullet.x < SCREEN_WIDTH and bullet.x > 0:
