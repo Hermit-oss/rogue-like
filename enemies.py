@@ -29,7 +29,7 @@ class enemy_class():
         self.enemy_attack_cooldown=[]
 
         win_x, win_y = screen.get_size()
-        amount = random.randint(1, 2)
+        amount = random.randint(3, 5)
         for i in range(amount):
             enemy_type = random.randint(0,2)  #losuje rodzaj oponenta
             enemy_X = random.randint(60, win_x-80)
@@ -67,8 +67,8 @@ class enemy_class():
 #                self.enemies_imgs.append(pygame.image.load("assets/imgs/amognus.png"))
                 self.enemy_recs.append(pygame.Rect(enemy_X, enemy_Y, EN_SIZE, EN_SIZE))
                 self.enemy_colors.append(TWO)
-                self.enemy_change_X.append(4)
-                self.enemy_change_Y.append(4)
+                self.enemy_change_X.append(3)
+                self.enemy_change_Y.append(3)
                 self.enemy_hp.append(10)
                 self.shooter.append(False)
                 self.enemy_dmg.append(1)
