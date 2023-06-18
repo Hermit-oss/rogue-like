@@ -82,6 +82,7 @@ class TileMap:
     """
     collision_map = []
     door_map = []
+    spike_map = []
     box_bullet = []
     box_health = []
     tile_door_map_coordinates = []
@@ -98,7 +99,6 @@ class TileMap:
         self.width = 0
         self.height = 0
         self.tile_map = []
-        self.dmap = []
 
         # Create a SpriteSheet object to load images
         sprite_sheet = SpriteSheet(pygame.image.load("assets/images/tile_sprite3.png"))
@@ -125,6 +125,7 @@ class TileMap:
     def reset_collisions(self):
         self.collision_map.clear()
         self.door_map.clear()
+        self.spike_map.clear()
 
     def draw(self, surface):
         """
@@ -145,7 +146,7 @@ class TileMap:
                 if tile.value == 4:
                     self.box_health.append(tile.rect)
                 if tile.value == 5:
-                    self.dmap.append(tile.rect)
+                    self.spike_map.append(tile.rect)
                 tile.draw(surface)
 
     def door_remover(self, direction):
