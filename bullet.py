@@ -87,8 +87,9 @@ class Bullet(object):
                     bullets.pop(bullets.index(bullet))
                     break
 
-
+        i=-1
         for bullet in bullets:
+            i+=1
             if if_enemy==False:
                 if bullet.facing==0: #w prawo leci pocisk
                     if bullet.x < SCREEN_WIDTH and bullet.x > 0:
@@ -101,10 +102,13 @@ class Bullet(object):
                                     Bullet.shoot_box_bomb(bullet, boxes, 20)
                                 if future_rect.collidelistall(tile.TileMap.box_health):
                                     Bullet.shoot_box_bomb(bullet, bombs, 20)
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
+
                     else:
                         # print("hello")
-                        bullets.pop(bullets.index(bullet)) 
+                        bullets.pop(i)
+                        i-=1
                     
                 if bullet.facing==1: #w lewo leci pocisk
                     if bullet.x < SCREEN_WIDTH and bullet.x > 0:
@@ -117,9 +121,11 @@ class Bullet(object):
                                     Bullet.shoot_box_bomb(bullet, boxes, 20)
                                 if future_rect.collidelistall(tile.TileMap.box_health):
                                     Bullet.shoot_box_bomb(bullet, bombs, 20)
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet)) 
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==2: #w dol
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -132,9 +138,11 @@ class Bullet(object):
                                     Bullet.shoot_box_bomb(bullet, boxes, 20)
                                 if future_rect.collidelistall(tile.TileMap.box_health):
                                     Bullet.shoot_box_bomb(bullet, bombs, 20)
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet)) 
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==3: #w gore
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -147,9 +155,11 @@ class Bullet(object):
                                     Bullet.shoot_box_bomb(bullet, boxes, 20)
                                 if future_rect.collidelistall(tile.TileMap.box_health):
                                     Bullet.shoot_box_bomb(bullet, bombs, 20)
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet))
+                        bullets.pop(i)
+                        i-=1
 
             else:
                 if bullet.facing==1: #w prawo leci pocisk
@@ -158,9 +168,11 @@ class Bullet(object):
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.x += 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet)) 
+                        bullets.pop(i)
+                        i-=1
                     
                 if bullet.facing==6: #w lewo leci pocisk
                     if bullet.x < SCREEN_WIDTH and bullet.x > 0:
@@ -168,9 +180,11 @@ class Bullet(object):
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.x -= 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet)) 
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==4: #w dol
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -178,9 +192,11 @@ class Bullet(object):
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.y += 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet)) 
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==2: #w gore
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -188,9 +204,11 @@ class Bullet(object):
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.y -= 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet))
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==3: #w gore-prawo
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -199,9 +217,11 @@ class Bullet(object):
                             bullet.y -= 1
                             bullet.x += 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet))
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==8: #w gore-lewo
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -210,9 +230,11 @@ class Bullet(object):
                             bullet.y -= 1
                             bullet.x -= 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet))
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==10: #w dol-lewo
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -221,9 +243,11 @@ class Bullet(object):
                             bullet.y += 1
                             bullet.x -= 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet))
+                        bullets.pop(i)
+                        i-=1
 
                 if bullet.facing==5: #w dol-prawo
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
@@ -232,6 +256,8 @@ class Bullet(object):
                             bullet.y += 1
                             bullet.x += 1
                         else:
-                            bullets.pop(bullets.index(bullet))
+                            bullets.pop(i)
+                            i-=1
                     else:
-                        bullets.pop(bullets.index(bullet))
+                        bullets.pop(i)
+                        i-=1
