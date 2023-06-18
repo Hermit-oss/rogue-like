@@ -137,7 +137,7 @@ def game(chosen_color,fullscreen):
             character.move_down()
         SCREEN.fill((255, 255, 255))  # Fill the screen with white
         if key[pygame.K_c]:
-            if len(bullets) < 3: #max 3 pociski
+            if len(bullets) < 5: #max 5 pociskow
                 if cooldown_counter%10==0:
                     bullets.append(Bullet(character.x , character.y , 4, (0,0,0), character.orientation, character.causing_damage))
         if key[pygame.K_m]:
