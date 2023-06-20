@@ -176,7 +176,7 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
                     
-                if bullet.facing==6: #w lewo leci pocisk
+                elif bullet.facing==6: #w lewo leci pocisk
                     if bullet.x < SCREEN_WIDTH and bullet.x > 0:
                         future_rect = pygame.Rect(bullet.x-1, bullet.y, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
@@ -188,7 +188,7 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
 
-                if bullet.facing==4: #w dol
+                elif bullet.facing==4: #w dol
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
                         future_rect = pygame.Rect(bullet.x, bullet.y + 1, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
@@ -200,7 +200,7 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
 
-                if bullet.facing==2: #w gore
+                elif bullet.facing==2: #w gore
                     if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
                         future_rect = pygame.Rect(bullet.x, bullet.y-1, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
@@ -212,8 +212,8 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
 
-                if bullet.facing==3: #w gore-prawo
-                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
+                elif bullet.facing==3: #w gore-prawo
+                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0 and bullet.x < SCREEN_WIDTH and bullet.x > 0:
                         future_rect = pygame.Rect(bullet.x+1, bullet.y-1, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.y -= 1
@@ -225,8 +225,8 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
 
-                if bullet.facing==8: #w gore-lewo
-                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
+                elif bullet.facing==8: #w gore-lewo
+                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0 and bullet.x < SCREEN_WIDTH and bullet.x > 0:
                         future_rect = pygame.Rect(bullet.x-1, bullet.y-1, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.y -= 1
@@ -238,8 +238,8 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
 
-                if bullet.facing==10: #w dol-lewo
-                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
+                elif bullet.facing==10: #w dol-lewo
+                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0 and bullet.x < SCREEN_WIDTH and bullet.x > 0:
                         future_rect = pygame.Rect(bullet.x-1, bullet.y+1, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.y += 1
@@ -251,8 +251,8 @@ class Bullet(object):
                         bullets.pop(i)
                         i-=1
 
-                if bullet.facing==5: #w dol-prawo
-                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0:
+                elif bullet.facing==5: #w dol-prawo
+                    if bullet.y < SCREEN_HEIGHT and bullet.y > 0 and bullet.x < SCREEN_WIDTH and bullet.x > 0:
                         future_rect = pygame.Rect(bullet.x+1, bullet.y+1, 4, 4)
                         if not future_rect.collidelistall(tile.TileMap.collision_map):
                             bullet.y += 1
