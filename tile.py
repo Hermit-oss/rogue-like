@@ -36,6 +36,13 @@ class Tile:
         self.tile_size = tile_size
         self.image = image
         self.rect = pygame.Rect(self.x * self.tile_size, self.y * self.tile_size, self.tile_size, self.tile_size)
+        self.reloaded = False
+
+    def change_and_reload(self, value):
+        sprite_sheet = SpriteSheet(pygame.image.load("assets/images/tile_sprite3.png"))
+        image = sprite_sheet.get_image(1, self.tile_size, self.tile_size, 1, (1, 0, 0))
+        self.__init__(self.x, self.y, value, self.tile_size, image)
+        self.reloaded = True
 
     def draw(self, surface):
         """
@@ -139,7 +146,7 @@ class TileMap:
             for tile in row:
                 if tile.collision == 1:
                     self.collision_map.append(tile.rect)
-                if tile.value == 0:
+                if tile.value == 0 or tile.reloaded == True:
                     self.door_map.append(tile.rect)
                 if tile.value == 3:
                     self.box_bullet.append(tile.rect)
@@ -152,21 +159,21 @@ class TileMap:
     def door_remover(self, direction):
         if direction == 'up': # 2, 4
             (x, y) = self.tile_door_map_coordinates[2]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
             (x, y) = self.tile_door_map_coordinates[4]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
         elif direction == 'down': # 3, 5
             (x, y) = self.tile_door_map_coordinates[3]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
             (x, y) = self.tile_door_map_coordinates[5]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
         elif direction == 'left': # 0, 1
             (x, y) = self.tile_door_map_coordinates[0]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
             (x, y) = self.tile_door_map_coordinates[1]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
         elif direction == 'right': # 6, 7
             (x, y) = self.tile_door_map_coordinates[6]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
             (x, y) = self.tile_door_map_coordinates[7]
-            self.tile_map[y][x].image = None
+            self.tile_map[y][x].change_and_reload(-1)
